@@ -23,5 +23,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.cars = require("./cars.model.js")(sequelize, Sequelize);
+db.communities = require("./communities.model.js")(sequelize, Sequelize);
+db.comments = require("./comments.model.js")(sequelize, Sequelize);
 
 module.exports = db;
