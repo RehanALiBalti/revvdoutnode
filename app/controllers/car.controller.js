@@ -67,18 +67,20 @@ exports.findModels = (req, res) => {
 };
 
 exports.findGenerations = (req, res) => {
+  if (!req.query.make && !req.query.model) {
+    res.status(400).send({
+      message: "Make and model cannot be empty!",
+    });
+    return;
+  }
+  const make = req.query.make;
   const model = req.query.model;
-  var condition = model ? { model: { [Op.like]: `%${model}%` } } : null;
+  // var condition = model ? { model: { [Op.like]: `%${model}%` } } : null;
 
   // Car.findAll({ where: condition })
   Car.findAll({
-    where: condition,
-    attributes: [
-      "generation",
-      "classification",
-      "production_years",
-      "country_of_origin",
-    ]
+    where: { make: make, model: model },
+    attributes: ["generation", "production_years"],
   })
     .then((data) => {
       res.send(data);

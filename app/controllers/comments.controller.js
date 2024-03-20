@@ -1,7 +1,7 @@
 const db = require("../models");
 const Comment = db.comments;
-const Op = db.Sequelize.Op;
-const sequelize = db.sequelize;
+// const Op = db.Sequelize.Op;
+// const sequelize = db.sequelize;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -35,6 +35,23 @@ exports.findAll = (req, res) => {
 
   // Car.findAll({ where: condition })
   Comment.findAll()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Comments.",
+      });
+    });
+};
+
+exports.findAllByCommunity = (req, res) => {
+  const community_id = req.params.id;
+  // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+
+  // Car.findAll({ where: condition })
+  Comment.findAll({ where: { community_id: community_id } })
     .then((data) => {
       res.send(data);
     })
@@ -93,7 +110,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.createComments = (req, res) => {
-  if (!req.body.comments) {
+  if (!req.body.comments && !req.body.user_email) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
@@ -102,6 +119,8 @@ exports.createComments = (req, res) => {
 
   const comment = {
     community_id: req.body.community_id,
+    user_email: req.body.user_email,
+    image: req.file,
     comments: req.body.comments,
   };
 
@@ -116,7 +135,6 @@ exports.createComments = (req, res) => {
     });
 };
 
-// Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 

@@ -3,6 +3,12 @@ module.exports = (sequelize, Sequelize) => {
     community_id: {
       type: Sequelize.NUMBER,
     },
+    user_email: {
+      type: Sequelize.STRING,
+    },
+    image: {
+      type: Sequelize.STRING,
+    },
     comments: {
       type: Sequelize.TEXT,
     },

@@ -14,7 +14,6 @@ module.exports = (app) => {
 
   crouter.post("/likes", communities.updateLikes);
   crouter.post("/views", communities.updateViews);
-  crouter.post("/comments", communities.createComments);
 
   crouter.delete("/:id", communities.delete);
 

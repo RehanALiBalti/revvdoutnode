@@ -3,36 +3,38 @@ const Community = db.communities;
 const Op = db.Sequelize.Op;
 const sequelize = db.sequelize;
 
-// Create and Save a new Tutorial
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.title) {
+  if (!req.body.make && !req.body.model) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      message: "Make and model cannot be empty!",
     });
     return;
   }
 
-  // Create a Tutorial
-  const car = {
-    title: req.body.title,
-    description: req.body.description,
-    published: req.body.published ? req.body.published : false,
-  };
-
-  // Save Tutorial in the database
-  Community.create(tutorial)
+  // Save Community in the database
+  Community.findOrCreate({
+    where: {
+      make: req.body.make,
+      model: req.body.model,
+    },
+    defaults: {
+      make: req.body.make,
+      model: req.body.model,
+      generation: req.body.generation,
+      production_years: req.body.productionYear,
+    },
+  })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while creating the Car.",
+        message:
+          err.message || "Some error occurred while creating the community.",
       });
     });
 };
-//De Voluu
-// Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   // const title = req.query.title;
   // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -60,10 +62,6 @@ exports.findSelected = (req, res) => {
   if (model) {
     condition = { make: make, model: model };
   }
-  // const generation = req.query.generation;
-  // const classification = req.query.classification;
-  // const productionYears = req.query.productionYears;
-  // const countryOfOrigin = req.query.countryOfOrigin;
 
   Community.findAll({
     where: condition,

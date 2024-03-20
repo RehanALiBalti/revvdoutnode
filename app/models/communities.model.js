@@ -9,13 +9,7 @@ module.exports = (sequelize, Sequelize) => {
     generation: {
       type: Sequelize.STRING,
     },
-    classification: {
-      type: Sequelize.STRING,
-    },
     production_years: {
-      type: Sequelize.STRING,
-    },
-    country_of_origin: {
       type: Sequelize.STRING,
     },
     image: {

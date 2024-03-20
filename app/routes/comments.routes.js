@@ -3,13 +3,17 @@ module.exports = (app) => {
 
   var comrouter = require("express").Router();
 
+  const multer = require("multer");
+  const upload = multer({ dest: "./uploads/" });
+
   comrouter.post("/", comments.create);
 
   comrouter.get("/", comments.findAll);
+  comrouter.get("/commentsall/:id", comments.findAllByCommunity);
 
   comrouter.get("/:id", comments.findOne);
 
-  comrouter.post("/comments", comments.createComments);
+  comrouter.post("/comments", upload.single("image"), comments.createComments);
 
   comrouter.delete("/:id", comments.delete);
 
