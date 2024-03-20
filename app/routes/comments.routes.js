@@ -4,7 +4,7 @@ module.exports = (app) => {
   var comrouter = require("express").Router();
 
   const multer = require("multer");
-  const upload = multer({ dest: "./uploads/" });
+  const upload = multer({ dest: "uploads/" });
 
   comrouter.post("/", comments.create);
 
