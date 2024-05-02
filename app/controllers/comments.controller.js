@@ -156,16 +156,15 @@ exports.createComments = (req, res) => {
 };
 
 exports.uploadUserPhoto = (req, res) => {
-  // if (!req.file) {
-  //   res.status(400).send({
-  //     message: "Please upload user photo!",
-  //   });
-  //   return;
-  // }
+  if (!req.file) {
+    res.status(400).send({
+      message: "Please upload user photo!",
+    });
+    return;
+  }
 
   const data = {
-    // photo_url: req.file.originalname,
-    photo_url: "testing",
+    photo_url: req.file.originalname,
   };
   res.send(data);
 };
