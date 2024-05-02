@@ -162,7 +162,7 @@ exports.uploadUserPhoto = (req, res) => {
     });
     return;
   }
-  //photo url
+  //photo url new
   data = {
     photo_url: req.file.originalname,
   };
