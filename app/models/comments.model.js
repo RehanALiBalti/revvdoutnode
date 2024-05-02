@@ -3,6 +3,9 @@ module.exports = (sequelize, Sequelize) => {
     community_id: {
       type: Sequelize.NUMBER,
     },
+    user_name: {
+      type: Sequelize.STRING,
+    },
     user_email: {
       type: Sequelize.STRING,
     },

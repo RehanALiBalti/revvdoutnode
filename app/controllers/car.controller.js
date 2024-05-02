@@ -80,7 +80,7 @@ exports.findGenerations = (req, res) => {
   // Car.findAll({ where: condition })
   Car.findAll({
     where: { make: make, model: model },
-    attributes: ["generation", "production_years"],
+    attributes: ["production_years"],
   })
     .then((data) => {
       res.send(data);

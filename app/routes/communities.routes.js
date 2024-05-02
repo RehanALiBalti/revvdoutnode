@@ -13,6 +13,7 @@ module.exports = (app) => {
   crouter.get("/:id", communities.findOne);
 
   crouter.post("/likes", communities.updateLikes);
+  crouter.post("/dislikes", communities.updateDislikes);
   crouter.post("/views", communities.updateViews);
 
   crouter.delete("/:id", communities.delete);

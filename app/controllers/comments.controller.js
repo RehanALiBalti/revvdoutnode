@@ -117,22 +117,55 @@ exports.createComments = (req, res) => {
     return;
   }
 
-  const comment = {
-    community_id: req.body.community_id,
-    user_email: req.body.user_email,
-    image: req.file,
-    comments: req.body.comments,
-  };
-
-  Comment.create(comment)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating comments.",
+  if (req.file) {
+    const comment = {
+      community_id: req.body.community_id,
+      user_name: req.body.user_name,
+      user_email: req.body.user_email,
+      image: req.file.originalname,
+      comments: req.body.comments,
+    };
+    Comment.create(comment)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating comments.",
+        });
       });
+  } else {
+    const comment = {
+      community_id: req.body.community_id,
+      user_name: req.body.user_name,
+      user_email: req.body.user_email,
+      comments: req.body.comments,
+    };
+    Comment.create(comment)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating comments.",
+        });
+      });
+  }
+};
+
+exports.uploadUserPhoto = (req, res) => {
+  if (!req.file) {
+    res.status(400).send({
+      message: "Please upload user photo!",
     });
+    return;
+  }
+  data = {
+    photo_url: "http://137.184.111.69:5000/users/" + req.file.originalname,
+  };
+  res.send(data);
 };
 
 exports.delete = (req, res) => {

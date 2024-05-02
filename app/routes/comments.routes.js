@@ -4,7 +4,24 @@ module.exports = (app) => {
   var comrouter = require("express").Router();
 
   const multer = require("multer");
-  const upload = multer({ dest: "uploads/" });
+  const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, "uploads/");
+    },
+    filename: (req, file, callback) => {
+      callback(null, file.originalname);
+    },
+  });
+  const userStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, "uploads/users/");
+    },
+    filename: (req, file, callback) => {
+      callback(null, file.originalname);
+    },
+  });
+  const upload = multer({ storage: storage });
+  const upload2 = multer({ storage: userStorage });
 
   comrouter.post("/", comments.create);
 
@@ -14,6 +31,11 @@ module.exports = (app) => {
   comrouter.get("/:id", comments.findOne);
 
   comrouter.post("/comments", upload.single("image"), comments.createComments);
+  comrouter.post(
+    "/users",
+    upload2.single("userImage"),
+    comments.uploadUserPhoto
+  );
 
   comrouter.delete("/:id", comments.delete);
 

@@ -6,20 +6,11 @@ module.exports = (sequelize, Sequelize) => {
     model: {
       type: Sequelize.STRING,
     },
-    generation: {
-      type: Sequelize.STRING,
-    },
-    classification: {
-      type: Sequelize.STRING,
-    },
     production_years: {
       type: Sequelize.STRING,
     },
     country_of_origin: {
       type: Sequelize.STRING,
-    },
-    notes: {
-      type: Sequelize.TEXT,
     },
   });
 

@@ -55,13 +55,8 @@ exports.findSelected = (req, res) => {
   let condition = {};
   const make = req.query.make;
   const model = req.query.model;
-  const production_years = req.query.productionYear;
-  if (make && model && production_years) {
-    condition = {
-      make: make,
-      model: model,
-      production_years: production_years,
-    };
+  if (make && model && generation) {
+    condition = { make: make, model: model, generation: generation };
   } else if (make && model) {
     condition = { make: make, model: model };
   } else if (make) {
