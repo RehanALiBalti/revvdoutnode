@@ -33,7 +33,7 @@ module.exports = (app) => {
   comrouter.post("/comments", upload.single("image"), comments.createComments);
   comrouter.post(
     "/users",
-    upload2.single("userImage"),
+    // upload2.single("userImage"),
     comments.uploadUserPhoto
   );
 
