@@ -163,7 +163,7 @@ exports.uploadUserPhoto = (req, res) => {
     return;
   }
   data = {
-    photo_url: req.file.originalname,
+    photo_url: "http://137.184.111.69:5000/users/" + req.file.originalname,
   };
   res.send(data);
 };
