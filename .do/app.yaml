@@ -4,5 +4,5 @@ services:
     github:
       branch: main
       deploy_on_push: true
-      repo: https://github.com/RehanALiBalti/revvdoutnode.git
+      repo: RehanALiBalti/revvdoutnode
     name: revvdoutnode
