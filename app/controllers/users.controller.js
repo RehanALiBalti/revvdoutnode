@@ -5,7 +5,7 @@ const sequelize = db.sequelize;
 
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.email && !req.body.password) {
+  if (!req.body.email) {
     res.status(400).send({
       message: "Email and password cannot be empty!",
     });
