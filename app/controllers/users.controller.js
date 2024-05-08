@@ -11,38 +11,33 @@ exports.create = (req, res) => {
     });
     return;
   }
-
+  const user = {
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    age: req.body.age,
+    phone: req.body.phone,
+    socialMedia: req.body.socialMedia,
+    check1: req.body.check1,
+    check2: req.body.check2,
+    street: req.body.street,
+    streetNo: req.body.streetNo,
+    street2: req.body.street2,
+    zipCode: req.body.zipCode,
+    city: req.body.city,
+    country: req.body.country,
+    intlPrefix1: req.body.intlPrefix1,
+    intlPrefix2: req.body.intlPrefix2,
+    intlPrefix3: req.body.intlPrefix3,
+    prefix1: req.body.prefix1,
+    prefix2: req.body.prefix2,
+    prefix3: req.body.prefix3,
+    fax: req.body.fax,
+    mobilePhone: req.body.mobilePhone,
+    role: req.body.role,
+  };
   // Save user in the database
-  User.findOrCreate({
-    where: {
-      email: req.body.email,
-    },
-    defaults: {
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      age: req.body.age,
-      phone: req.body.phone,
-      socialMedia: req.body.socialMedia,
-      check1: req.body.check1,
-      check2: req.body.check2,
-      street: req.body.street,
-      streetNo: req.body.streetNo,
-      street2: req.body.street2,
-      zipCode: req.body.zipCode,
-      city: req.body.city,
-      country: req.body.country,
-      intlPrefix1: req.body.intlPrefix1,
-      intlPrefix2: req.body.intlPrefix2,
-      intlPrefix3: req.body.intlPrefix3,
-      prefix1: req.body.prefix1,
-      prefix2: req.body.prefix2,
-      prefix3: req.body.prefix3,
-      fax: req.body.fax,
-      mobilePhone: req.body.mobilePhone,
-      role: req.body.role,
-    },
-  })
+  User.create(user)
     .then((data) => {
       res.send(data);
     })
@@ -129,6 +124,26 @@ exports.findOne = (req, res) => {
   const id = req.params.id;
 
   User.findByPk(id)
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find Community with id=${id}.`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error retrieving Community with id=" + id,
+      });
+    });
+};
+
+exports.findByEmail = (req, res) => {
+  const email = req.params.email;
+
+  User.findOne(id)
     .then((data) => {
       if (data) {
         res.send(data);

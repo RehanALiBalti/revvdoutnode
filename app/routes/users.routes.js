@@ -11,6 +11,7 @@ module.exports = (app) => {
   userrouter.get("/published", users.findAllPublished);
 
   userrouter.get("/:id", users.findOne);
+  // userrouter.get("/:email", users.findOneByEmail);
 
   userrouter.post("/likes", users.updateLikes);
   userrouter.post("/dislikes", users.updateDislikes);
