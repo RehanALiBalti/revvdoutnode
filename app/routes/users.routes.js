@@ -16,7 +16,7 @@ module.exports = (app) => {
   userrouter.post("/dislikes", users.updateDislikes);
   userrouter.post("/views", users.updateViews);
 
-  router.put("/:id", users.update);
+  userrouter.put("/:id", users.update);
 
   userrouter.delete("/:id", users.delete);
 
