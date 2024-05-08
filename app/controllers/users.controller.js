@@ -140,10 +140,10 @@ exports.findOne = (req, res) => {
     });
 };
 
-exports.findByEmail = (req, res) => {
+exports.findOneByEmail = (req, res) => {
   const email = req.params.email;
 
-  User.findOne(id)
+  User.findOne({ where: { email: email } })
     .then((data) => {
       if (data) {
         res.send(data);
