@@ -8,7 +8,7 @@ module.exports = (app) => {
   userrouter.get("/", users.findAll);
 
   userrouter.get("/filter", users.findSelected);
-  userrouter.get("/email", users.findByEmail);
+  userrouter.get("/cognito", users.findByCognitoId);
 
   userrouter.get("/:id", users.findOne);
 
