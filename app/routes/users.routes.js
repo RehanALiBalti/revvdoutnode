@@ -17,7 +17,7 @@ module.exports = (app) => {
   userrouter.post("/views", users.updateViews);
 
   userrouter.put("/:id", users.update);
-  userrouter.put("/cognito", users.update);
+  // userrouter.put("/cognito", users.update);
 
   userrouter.delete("/:id", users.delete);
 

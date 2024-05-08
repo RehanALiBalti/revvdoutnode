@@ -78,7 +78,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  const cognitoId = req.params.cognitoId;
+  const cognitoId = req.params.id;
 
   User.update(req.body, {
     where: { cognitoId: cognitoId },
