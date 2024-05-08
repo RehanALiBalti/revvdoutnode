@@ -149,13 +149,13 @@ exports.findOneByEmail = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find User with id=${id}.`,
+          message: `Cannot find User with email=${email}.`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving User with id=" + id,
+        message: "Error retrieving User with email=" + email,
       });
     });
 };
