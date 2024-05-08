@@ -121,27 +121,7 @@ exports.findSelected = (req, res) => {
 
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
-  const id = req.params.id;
-
-  User.findByPk(id)
-    .then((data) => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find Community with id=${id}.`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving Community with id=" + id,
-      });
-    });
-};
-
-exports.findOneByEmail = (req, res) => {
-  const email = req.query.email;
+  const email = req.params.email;
 
   User.findOne({ where: { email: email } })
     .then((data) => {
@@ -149,13 +129,13 @@ exports.findOneByEmail = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find User with email=${email}.`,
+          message: `Cannot find User with id=${email}.`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving User with email=" + email,
+        message: "Error retrieving User with id=" + email,
       });
     });
 };
