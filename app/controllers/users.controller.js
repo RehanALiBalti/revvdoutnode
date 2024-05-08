@@ -249,7 +249,7 @@ exports.deleteAll = (req, res) => {
 
 // find all published Tutorial
 exports.findByEmail = (req, res) => {
-  const email = req.params.email;
+  const email = req.query.email;
   User.findAll({ where: { email: email } })
     .then((data) => {
       res.send(data);
