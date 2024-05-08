@@ -121,21 +121,21 @@ exports.findSelected = (req, res) => {
 
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
-  const email = req.params.email;
+  const id = req.params.id;
 
-  User.findOne({ where: { email: email } })
+  User.findOne(id)
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find User with id=${email}.`,
+          message: `Cannot find User with id=${id}.`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving User with id=" + email,
+        message: "Error retrieving User with id=" + id,
       });
     });
 };
@@ -248,14 +248,15 @@ exports.deleteAll = (req, res) => {
 };
 
 // find all published Tutorial
-exports.findAllPublished = (req, res) => {
-  User.findAll({ where: { published: true } })
+exports.findByEmail = (req, res) => {
+  const email = req.params.email;
+  User.findAll({ where: { email: email } })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Cars.",
+        message: err.message || "Some error occurred while retrieving User.",
       });
     });
 };
