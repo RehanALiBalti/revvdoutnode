@@ -3,16 +3,29 @@ const User = db.users;
 const Op = db.Sequelize.Op;
 const sequelize = db.sequelize;
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   // Validate request
-  if (!req.body.email) {
+  if (!req.body.cognitoId) {
     res.status(400).send({
-      message: "Email and password cannot be empty!",
+      message: "cognitoId field cannot be empty!",
     });
     return;
   }
+
+  const oldUser = await User.findOne({
+    where: { cognitoId: req.body.cognitoId },
+  });
+
+  if (oldUser !== null) {
+    res.status(400).send({
+      message: `User already exists with cognitoId = ${cognitoId}`,
+    });
+    return;
+  }
+
   const user = {
     name: req.body.name,
+    cognitoId: req.body.cognitoId,
     email: req.body.email,
     password: req.body.password,
     age: req.body.age,
@@ -65,10 +78,10 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  const id = req.params.id;
+  const cognitoId = req.params.cognitoId;
 
   User.update(req.body, {
-    where: { id: id },
+    where: { cognitoId: cognitoId },
   })
     .then((num) => {
       if (num == 1) {
@@ -247,10 +260,9 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-// find all published Tutorial
-exports.findByEmail = (req, res) => {
-  const email = req.query.email;
-  User.findAll({ where: { email: email } })
+exports.findByCognitoId = (req, res) => {
+  const cognitoId = req.query.cognitoId;
+  User.findOne({ where: { cognitoId: cognitoId } })
     .then((data) => {
       res.send(data);
     })
