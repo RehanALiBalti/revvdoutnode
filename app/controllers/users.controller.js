@@ -4,13 +4,12 @@ const Op = db.Sequelize.Op;
 const sequelize = db.sequelize;
 
 exports.create = async (req, res) => {
-  // Validate request
-  // if (!req.body.cognitoId) {
-  //   res.status(400).send({
-  //     message: "cognitoId field cannot be empty!",
-  //   });
-  //   return;
-  // }
+  if (!req.body.cognitoId) {
+    res.send({
+      message: "cognitoId field cannot be empty!",
+    });
+    return;
+  }
 
   // const oldUser = await User.findOne({
   //   where: { cognitoId: req.body.cognitoId },
@@ -78,10 +77,10 @@ exports.findAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  const cognitoId = req.params.id;
+  const id = req.params.id;
 
   User.update(req.body, {
-    where: { cognitoId: cognitoId },
+    where: { id: id },
   })
     .then((num) => {
       if (num == 1) {

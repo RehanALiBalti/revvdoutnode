@@ -12,16 +12,7 @@ module.exports = (app) => {
 
   userrouter.get("/:id", users.findOne);
 
-  userrouter.post("/likes", users.updateLikes);
-  userrouter.post("/dislikes", users.updateDislikes);
-  userrouter.post("/views", users.updateViews);
-
   userrouter.put("/:id", users.update);
-  // userrouter.put("/cognito", users.update);
-
-  userrouter.delete("/:id", users.delete);
-
-  userrouter.delete("/", users.deleteAll);
 
   app.use("/api/users", userrouter);
 };

@@ -4,13 +4,6 @@ const cors = require("cors");
 
 const app = express();
 
-// var corsOptions = {
-//   origin: [
-//     "http://137.184.111.69:8081",
-//     "https://master.d3fzkz9eceedzm.amplifyapp.com",
-//   ],
-// };
-
 app.use(cors());
 
 app.use(bodyParser.json());
