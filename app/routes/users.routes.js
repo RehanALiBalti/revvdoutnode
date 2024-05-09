@@ -4,6 +4,7 @@ module.exports = (app) => {
   var userrouter = require("express").Router();
 
   userrouter.post("/", users.create);
+  userrouter.put("/:id", users.update);
 
   userrouter.get("/", users.findAll);
 
@@ -11,8 +12,6 @@ module.exports = (app) => {
   userrouter.get("/cognito", users.findByCognitoId);
 
   userrouter.get("/:id", users.findOne);
-
-  userrouter.put("/:id", users.update);
 
   app.use("/api/users", userrouter);
 };
