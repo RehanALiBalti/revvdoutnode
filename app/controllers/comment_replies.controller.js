@@ -45,12 +45,12 @@ exports.findAll = (req, res) => {
     });
 };
 
-exports.findAllByCommunity = (req, res) => {
-  const community_id = req.params.id;
+exports.findAllByComment = (req, res) => {
+  const comment_id = req.params.id;
   // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
   // Car.findAll({ where: condition })
-  Reply.findAll({ where: { community_id: community_id } })
+  Reply.findAll({ where: { comment_id: comment_id } })
     .then((data) => {
       res.send(data);
     })

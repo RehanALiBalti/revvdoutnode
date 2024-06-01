@@ -6,7 +6,8 @@ module.exports = (app) => {
   replyrouter.post("/", replies.create);
 
   replyrouter.get("/", replies.findAll);
-  replyrouter.get("/commentsall/:id", replies.findAllByCommunity);
+
+  replyrouter.get("/replyall/:id", replies.findAllByComment);
 
   replyrouter.get("/:id", replies.findOne);
 
