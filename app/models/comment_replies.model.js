@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   const Reply = sequelize.define("comment_replies", {
-    community_id: {
+    comment_id: {
       type: Sequelize.NUMBER,
     },
     user_name: {
