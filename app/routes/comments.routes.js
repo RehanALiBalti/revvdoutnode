@@ -39,7 +39,7 @@ module.exports = (app) => {
 
   comrouter.delete("/:id", comments.delete);
 
-  comrouter.delete("/", comments.deleteAll);
+  comrouter.delete("/deleteall", comments.deleteAll);
 
   app.use("/api/comments", comrouter);
 };
