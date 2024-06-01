@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-  const Comment = sequelize.define("comment", {
+  const Reply = sequelize.define("comment_replies", {
     community_id: {
       type: Sequelize.NUMBER,
     },
@@ -20,5 +20,5 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  return Comment;
+  return Reply;
 };

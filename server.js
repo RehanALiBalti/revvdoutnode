@@ -22,6 +22,7 @@ app.get("/", (request, response) => {
 require("./app/routes/cars.routes")(app);
 require("./app/routes/communities.routes")(app);
 require("./app/routes/comments.routes")(app);
+require("./app/routes/comment_replies.routes")(app);
 require("./app/routes/users.routes")(app);
 
 const PORT = process.env.PORT || 5000;
