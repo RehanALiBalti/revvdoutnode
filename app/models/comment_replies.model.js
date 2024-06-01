@@ -9,9 +9,6 @@ module.exports = (sequelize, Sequelize) => {
     user_email: {
       type: Sequelize.STRING,
     },
-    image: {
-      type: Sequelize.STRING,
-    },
     comments: {
       type: Sequelize.TEXT,
     },
