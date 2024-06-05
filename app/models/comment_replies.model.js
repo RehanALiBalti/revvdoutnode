@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
     comments: {
       type: Sequelize.TEXT,
     },
+    image: {
+      type: Sequelize.TEXT,
+    },
     created_date: {
       type: Sequelize.DATE,
     },
