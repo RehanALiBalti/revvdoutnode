@@ -3,6 +3,17 @@ module.exports = (app) => {
 
   var replyrouter = require("express").Router();
 
+  const multer = require("multer");
+  const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, "uploads/");
+    },
+    filename: (req, file, callback) => {
+      callback(null, file.originalname);
+    },
+  });
+  const upload = multer({ storage: storage });
+
   replyrouter.post("/", replies.create);
 
   replyrouter.get("/", replies.findAll);
@@ -11,7 +22,7 @@ module.exports = (app) => {
 
   replyrouter.get("/:id", replies.findOne);
 
-  replyrouter.post("/reply", replies.createReplies);
+  replyrouter.post("/reply", upload.single("rimage"), replies.createReplies);
 
   replyrouter.delete("/:id", replies.delete);
 

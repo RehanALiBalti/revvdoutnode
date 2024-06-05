@@ -114,21 +114,40 @@ exports.createReplies = (req, res) => {
     return;
   }
 
-  const reply = {
-    comment_id: req.body.comment_id,
-    user_name: req.body.user_name,
-    user_email: req.body.user_email,
-    comments: req.body.comments,
-  };
-  Reply.create(reply)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating Reply.",
+  if (req.file) {
+    const reply = {
+      comment_id: req.body.comment_id,
+      user_name: req.body.user_name,
+      user_email: req.body.user_email,
+      comments: req.body.comments,
+      image: req.file.originalname,
+    };
+    Reply.create(reply)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating reply.",
+        });
       });
-    });
+  } else {
+    const reply = {
+      comment_id: req.body.comment_id,
+      user_name: req.body.user_name,
+      user_email: req.body.user_email,
+      comments: req.body.comments,
+    };
+    Reply.create(reply)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: err.message || "Some error occurred while creating reply.",
+        });
+      });
+  }
 };
 
 exports.delete = (req, res) => {
