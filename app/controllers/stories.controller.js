@@ -1,47 +1,20 @@
 const db = require("../models");
-const Comment = db.comments;
+const Story = db.stories;
 // const Op = db.Sequelize.Op;
 // const sequelize = db.sequelize;
 
-// Create and Save a new Tutorial
-exports.create = (req, res) => {
-  if (!req.body.comments) {
-    res.status(400).send({
-      message: "Content can not be empty!",
-    });
-    return;
-  }
-
-  const comment = {
-    community_id: req.body.community_id,
-    comments: req.body.comments,
-  };
-
-  Comment.create(comment)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Some error occurred while creating the Car.",
-      });
-    });
-};
-//De Voluu
-// Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   // const title = req.query.title;
   // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
   // Car.findAll({ where: condition })
-  Comment.findAll()
+  Story.findAll()
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Comments.",
+        message: err.message || "Some error occurred while retrieving stories.",
       });
     });
 };
@@ -51,14 +24,13 @@ exports.findAllByCommunity = (req, res) => {
   // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
   // Car.findAll({ where: condition })
-  Comment.findAll({ where: { community_id: community_id } })
+  Story.findAll({ where: { community_id: community_id } })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Comments.",
+        message: err.message || "Some error occurred while retrieving stories.",
       });
     });
 };
@@ -74,7 +46,7 @@ exports.findSelected = (req, res) => {
     condition = { make: make, model: model };
   }
 
-  Comment.findAll({
+  Story.findAll({
     where: condition,
   })
     .then((data) => {
@@ -82,8 +54,7 @@ exports.findSelected = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Comments.",
+        message: err.message || "Some error occurred while retrieving stories.",
       });
     });
 };
@@ -92,64 +63,88 @@ exports.findSelected = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Comment.findByPk(id)
+  Story.findByPk(id)
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Comment with id=${id}.`,
+          message: `Cannot find story with id=${id}.`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Comment with id=" + id,
+        message: "Error retrieving story with id=" + id,
       });
     });
 };
 
-exports.createComments = (req, res) => {
-  if (!req.body.comments && !req.body.user_email) {
+exports.create = (req, res) => {
+  if (
+    !req.body.make &&
+    !req.body.model &&
+    !req.body.story &&
+    !req.body.user_name &&
+    !req.body.user_email
+  ) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      message: "Make, model, story, user namd and email are required fields!",
     });
     return;
   }
 
-  if (req.file) {
+  if (req.files) {
+    const files = req.files;
+    const filesArray = [];
+    files.forEach(function (file) {
+      filesArray.push(file.originalname);
+    });
+    const filesJson = JSON.stringify(filesArray);
     const comment = {
-      community_id: req.body.community_id,
       user_name: req.body.user_name,
       user_email: req.body.user_email,
-      image: req.file.originalname,
-      comments: req.body.comments,
+      story: req.body.story,
+      modifications: req.body.modifications,
+      memorable: req.body.memorable,
+      advice: req.body.advice,
+      story_name: req.body.social_media,
+      make: req.body.make,
+      model: req.body.model,
+      model: req.body.model,
+      year: req.body.year,
+      image: filesJson,
     };
-    Comment.create(comment)
+    Story.create(comment)
       .then((data) => {
         res.send(data);
       })
       .catch((err) => {
         res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating comments.",
+          message: err.message || "Some error occurred while creating story.",
         });
       });
   } else {
     const comment = {
-      community_id: req.body.community_id,
       user_name: req.body.user_name,
       user_email: req.body.user_email,
-      comments: req.body.comments,
+      story: req.body.story,
+      modifications: req.body.modifications,
+      memorable: req.body.memorable,
+      advice: req.body.advice,
+      story_name: req.body.social_media,
+      make: req.body.make,
+      model: req.body.model,
+      model: req.body.model,
+      year: req.body.year,
     };
-    Comment.create(comment)
+    Story.create(comment)
       .then((data) => {
         res.send(data);
       })
       .catch((err) => {
         res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating comments.",
+          message: err.message || "Some error occurred while creating story.",
         });
       });
   }
@@ -162,8 +157,9 @@ exports.uploadUserPhoto = (req, res) => {
     });
     return;
   }
-  data = {
-    photo_url: "http://137.184.111.69:5000/users/" + req.file.originalname,
+
+  const data = {
+    photo_url: req.file.originalname,
   };
   res.send(data);
 };
@@ -171,30 +167,30 @@ exports.uploadUserPhoto = (req, res) => {
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Comment.destroy({
+  Story.destroy({
     where: { id: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Car was deleted successfully!",
+          message: "Story was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete Comment with id=${id}. Maybe Car was not found!`,
+          message: `Cannot delete story with id=${id}. Maybe story was not found!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Comment with id=" + id,
+        message: "Could not delete story with id=" + id,
       });
     });
 };
 
 // Delete all Tutorials from the database.
 exports.deleteAll = (req, res) => {
-  Comment.destroy({
+  Story.destroy({
     where: {},
     truncate: false,
   })
@@ -204,21 +200,20 @@ exports.deleteAll = (req, res) => {
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while removing all Comments.",
+          err.message || "Some error occurred while removing all stories.",
       });
     });
 };
 
 // find all published Tutorial
 exports.findAllPublished = (req, res) => {
-  Community.findAll({ where: { published: true } })
+  Story.findAll({ where: { published: true } })
     .then((data) => {
       res.send(data);
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Comments.",
+        message: err.message || "Some error occurred while retrieving stories.",
       });
     });
 };
