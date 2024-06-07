@@ -63,7 +63,7 @@ exports.findSelected = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Story.findByPk(id)
+  Story.findOne({ where: { id: id, status: 1 } })
     .then((data) => {
       if (data) {
         res.send(data);
