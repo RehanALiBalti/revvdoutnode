@@ -95,10 +95,10 @@ exports.create = (req, res) => {
   }
 
   if (req.files) {
-    const files = req.files;
+    const filesArrayObject = req.files;
     const filesArray = [];
-    files.forEach(function (file) {
-      filesArray.push(file.originalname);
+    filesArrayObject.forEach(function (file) {
+      filesArray.push(file.filename);
     });
     const filesJson = JSON.stringify(filesArray);
     const comment = {
@@ -113,7 +113,7 @@ exports.create = (req, res) => {
       model: req.body.model,
       model: req.body.model,
       year: req.body.year,
-      image: filesJson,
+      images: filesJson,
     };
     Story.create(comment)
       .then((data) => {
