@@ -8,7 +8,7 @@ exports.findAll = (req, res) => {
   // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
   // Car.findAll({ where: condition })
-  Story.findAll()
+  Story.findAll({ where: { status: 1 } })
     .then((data) => {
       res.send(data);
     })
@@ -86,10 +86,12 @@ exports.create = (req, res) => {
     !req.body.model &&
     !req.body.story &&
     !req.body.user_name &&
+    !req.body.story_name &&
     !req.body.user_email
   ) {
     res.status(400).send({
-      message: "Make, model, story, user namd and email are required fields!",
+      message:
+        "Make, model, story, story name, user namd and user email are required fields!",
     });
     return;
   }
