@@ -66,7 +66,7 @@ exports.findAllByCommunity = (req, res) => {
 `;
   sequelize
     .query(query, {
-      replacements: { subId },
+      replacements: { community_id },
       type: sequelize.QueryTypes.SELECT,
     })
     .then((results) => {
