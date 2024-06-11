@@ -58,10 +58,10 @@ exports.findAllByCommunity = (req, res) => {
       const newdata = [];
       data.forEach(function (comment) {
         User.findOne({ where: { sub: comment.sub } }).then((userdata) => {
-          comment.userImage = userdata.image;
-          comment.nickname = userdata.nickname;
-          newdata.push(comment);
+          comment["userImage"] = userdata.image;
+          comment["nickname"] = userdata.nickname;
         });
+        newdata.push(comment);
       });
       res.send(newdata);
     })
