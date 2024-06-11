@@ -47,19 +47,50 @@ exports.findAll = (req, res) => {
 
 exports.findAllByComment = (req, res) => {
   const comment_id = req.params.id;
-  // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  // Car.findAll({ where: condition })
-  Reply.findAll({ where: { comment_id: comment_id } })
-    .then((data) => {
-      res.send(data);
+  const query = `
+  SELECT
+    comment_replies.*,
+    users.nickname,
+    users.image AS userimage
+  FROM
+    comment_replies
+  INNER JOIN
+    users ON comment_replies.sub = users.sub
+  WHERE
+    comment_replies.comment_id = :comment_id
+    GROUP by id;
+`;
+  console.log(query);
+  sequelize
+    .query(query, {
+      replacements: { comment_id },
+      type: sequelize.QueryTypes.SELECT,
     })
-    .catch((err) => {
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((error) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while retrieving Replies.",
+        message:
+          err.message || "Some error occurred while retrieving Comments.",
       });
     });
 };
+
+// exports.findAllByComment = (req, res) => {
+//   const comment_id = req.params.id;
+
+//   Reply.findAll({ where: { comment_id: comment_id } })
+//     .then((data) => {
+//       res.send(data);
+//     })
+//     .catch((err) => {
+//       res.status(500).send({
+//         message: err.message || "Some error occurred while retrieving Replies.",
+//       });
+//     });
+// };
 
 exports.findSelected = (req, res) => {
   let condition = {};
