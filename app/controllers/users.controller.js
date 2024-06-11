@@ -90,9 +90,16 @@ exports.update = (req, res) => {
   })
     .then((num) => {
       if (num == 1) {
-        res.send({
-          message: "User was updated successfully.",
-        });
+        User.findOne({ where: { sub: sub } })
+          .then((data) => {
+            res.send(data);
+          })
+          .catch((err) => {
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while retrieving User.",
+            });
+          });
       } else {
         res.send({
           message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
