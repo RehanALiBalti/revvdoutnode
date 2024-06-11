@@ -36,7 +36,8 @@ module.exports = (app) => {
     upload2.single("userImage"),
     comments.uploadUserPhoto
   );
-
+  comrouter.post("/likes", comments.updateLikes);
+  comrouter.post("/dislikes", comments.updateDislikes);
   comrouter.delete("/:id", comments.delete);
 
   comrouter.delete("/deleteall", comments.deleteAll);

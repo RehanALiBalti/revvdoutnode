@@ -208,6 +208,56 @@ exports.uploadUserPhoto = (req, res) => {
   res.send(data);
 };
 
+exports.updateLikes = (req, res) => {
+  const id = req.body.id;
+
+  Comment.update(
+    { likes: sequelize.literal("likes + 1") },
+    { where: { id: id } }
+  )
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Likes updated successfully.",
+        });
+      } else {
+        res.send({
+          message: `Cannot update Likes with id=${id}.`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Likes with id=" + id,
+      });
+    });
+};
+
+exports.updateDislikes = (req, res) => {
+  const id = req.body.id;
+
+  Comment.update(
+    { likes: sequelize.literal("likes - 1") },
+    { where: { id: id } }
+  )
+    .then((num) => {
+      if (num == 1) {
+        res.send({
+          message: "Like removed successfully.",
+        });
+      } else {
+        res.send({
+          message: `Cannot update Likes with id=${id}.`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating Likes with id=" + id,
+      });
+    });
+};
+
 exports.delete = (req, res) => {
   const id = req.params.id;
 
