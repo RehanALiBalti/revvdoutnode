@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
     cognitoId: {
       type: Sequelize.STRING,
     },
-    username: {
+    nickname: {
       type: Sequelize.STRING,
     },
     email: {
