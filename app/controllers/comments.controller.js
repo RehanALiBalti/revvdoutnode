@@ -138,7 +138,7 @@ exports.createComments = (req, res) => {
   } else {
     const comment = {
       community_id: req.body.community_id,
-      sub: req.body.user_name,
+      sub: req.body.sub,
       comments: req.body.comments,
     };
     Comment.create(comment)
