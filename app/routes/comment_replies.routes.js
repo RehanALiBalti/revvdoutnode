@@ -24,6 +24,9 @@ module.exports = (app) => {
 
   replyrouter.post("/reply", upload3.single("rimage"), replies.createReplies);
 
+  replyrouter.post("/likes", replies.updateLikes);
+  replyrouter.post("/dislikes", replies.updateDislikes);
+
   replyrouter.delete("/:id", replies.delete);
 
   replyrouter.delete("/", replies.deleteAll);

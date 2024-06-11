@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
     image: {
       type: Sequelize.TEXT,
     },
+    likes: {
+      type: Sequelize.NUMBER,
+    },
     created_date: {
       type: Sequelize.DATE,
     },
