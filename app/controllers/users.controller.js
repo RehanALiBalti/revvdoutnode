@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
   const user = {
     name: req.body.name,
     cognitoId: req.body.cognitoId,
-    username: req.body.username,
+    nickname: req.body.nickname,
     sub: req.body.sub,
     email: req.body.email,
     password: req.body.password,
@@ -127,8 +127,8 @@ exports.findOne = (req, res) => {
 };
 
 exports.findByUsername = (req, res) => {
-  const username = req.query.nickname;
-  User.findAndCountAll({ where: { username: username } })
+  const nickname = req.query.nickname;
+  User.findAndCountAll({ where: { nickname: nickname } })
     .then((data) => {
       res.send(data);
     })
