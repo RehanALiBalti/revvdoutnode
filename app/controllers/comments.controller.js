@@ -52,11 +52,9 @@ exports.findAllByCommunity = (req, res) => {
   const community_id = req.params.id;
   const query = `
   SELECT
-    comments.id,
-    comments.comments,
-    comments.created_date,
+    comments.*,
     users.nickname,
-    users.image
+    users.image AS userimage
   FROM
     comments
   INNER JOIN
