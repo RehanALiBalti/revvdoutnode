@@ -60,7 +60,8 @@ exports.findAllByCommunity = (req, res) => {
   INNER JOIN
     users ON comments.sub = users.sub
   WHERE
-    comments.community_id = :community_id;
+    comments.community_id = :community_id
+    GROUP by id;
 `;
   console.log(query);
   sequelize
