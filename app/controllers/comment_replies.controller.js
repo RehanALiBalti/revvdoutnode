@@ -1,7 +1,7 @@
 const db = require("../models");
 const Reply = db.comment_replies;
 // const Op = db.Sequelize.Op;
-// const sequelize = db.sequelize;
+const sequelize = db.sequelize;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
