@@ -64,6 +64,7 @@ exports.findAllByCommunity = (req, res) => {
   WHERE
     comments.community_id = :community_id;
 `;
+  console.log(query);
   sequelize
     .query(query, {
       replacements: { community_id },
