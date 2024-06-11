@@ -80,8 +80,12 @@ exports.findAll = (req, res) => {
 exports.update = (req, res) => {
   const id = req.params.id;
 
+  if (req.file) {
+    req.body.image = req.file.originalname;
+  }
+
   User.update(req.body, {
-    where: { id: id },
+    where: { sub: id },
   })
     .then((num) => {
       if (num == 1) {
@@ -124,6 +128,19 @@ exports.findOne = (req, res) => {
 exports.findByCognitoId = (req, res) => {
   const cognitoId = req.query.cognitoId;
   User.findOne({ where: { cognitoId: cognitoId } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving User.",
+      });
+    });
+};
+
+exports.findBySub = (req, res) => {
+  const sub = req.query.sub;
+  User.findOne({ where: { sub: sub } })
     .then((data) => {
       res.send(data);
     })
