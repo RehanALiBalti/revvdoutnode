@@ -121,7 +121,7 @@ exports.createComments = (req, res) => {
   if (req.file) {
     const comment = {
       community_id: req.body.community_id,
-      sub: req.body.user_name,
+      sub: req.body.sub,
       image: req.file.originalname,
       comments: req.body.comments,
     };
