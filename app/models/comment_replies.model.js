@@ -3,11 +3,8 @@ module.exports = (sequelize, Sequelize) => {
     comment_id: {
       type: Sequelize.NUMBER,
     },
-    user_name: {
-      type: Sequelize.STRING,
-    },
-    user_email: {
-      type: Sequelize.STRING,
+    sub: {
+      type: Sequelize.TEXT,
     },
     comments: {
       type: Sequelize.TEXT,

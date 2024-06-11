@@ -12,6 +12,7 @@ module.exports = (app) => {
       callback(null, file.originalname);
     },
   });
+
   const userUpload = multer({ storage: userImageStorage });
 
   userrouter.post("/", users.create);

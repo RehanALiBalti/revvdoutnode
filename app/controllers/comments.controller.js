@@ -177,7 +177,7 @@ exports.delete = (req, res) => {
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Car was deleted successfully!",
+          message: "Comment was deleted successfully!",
         });
       } else {
         res.send({
@@ -199,7 +199,7 @@ exports.deleteAll = (req, res) => {
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums} Car were deleted successfully!` });
+      res.send({ message: `${nums} Comments were deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({

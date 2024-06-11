@@ -118,8 +118,7 @@ exports.createReplies = (req, res) => {
     const reply = {
       comment_id: req.body.comment_id,
       parent_id: req.body.parent_id,
-      user_name: req.body.user_name,
-      user_email: req.body.user_email,
+      sub: req.body.sub,
       comments: req.body.comments,
       image: req.file.originalname,
     };
@@ -136,8 +135,7 @@ exports.createReplies = (req, res) => {
     const reply = {
       comment_id: req.body.comment_id,
       parent_id: req.body.parent_id,
-      user_name: req.body.user_name,
-      user_email: req.body.user_email,
+      sub: req.body.sub,
       comments: req.body.comments,
     };
     Reply.create(reply)
