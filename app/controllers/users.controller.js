@@ -90,7 +90,7 @@ exports.update = (req, res) => {
   })
     .then((num) => {
       if (num == 1) {
-        User.findOne({ where: { sub: sub } })
+        User.findOne({ where: { sub: id } })
           .then((data) => {
             res.send(data);
           })
