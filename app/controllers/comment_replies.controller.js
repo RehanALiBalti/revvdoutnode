@@ -117,6 +117,7 @@ exports.createReplies = (req, res) => {
   if (req.file) {
     const reply = {
       comment_id: req.body.comment_id,
+      parent_id: req.body.parent_id,
       user_name: req.body.user_name,
       user_email: req.body.user_email,
       comments: req.body.comments,
@@ -134,6 +135,7 @@ exports.createReplies = (req, res) => {
   } else {
     const reply = {
       comment_id: req.body.comment_id,
+      parent_id: req.body.parent_id,
       user_name: req.body.user_name,
       user_email: req.body.user_email,
       comments: req.body.comments,

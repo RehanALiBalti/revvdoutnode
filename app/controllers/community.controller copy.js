@@ -13,7 +13,7 @@ exports.create = (req, res) => {
   }
 
   // Save Community in the database
-  Community.findOrCreate({
+  Community.create({
     where: {
       make: req.body.make,
       model: req.body.model,
@@ -22,6 +22,7 @@ exports.create = (req, res) => {
       make: req.body.make,
       model: req.body.model,
       production_years: req.body.productionYear,
+      specifications: req.body.specifications,
     },
   })
     .then((data) => {
@@ -55,12 +56,21 @@ exports.findSelected = (req, res) => {
   let condition = {};
   const make = req.query.make;
   const model = req.query.model;
+  const production_years = req.query.production_years;
+  const specifications = req.query.specifications;
   if (make && model && generation) {
-    condition = { make: make, model: model, generation: generation };
-  } else if (make && model) {
-    condition = { make: make, model: model };
-  } else if (make) {
-    condition = { make: make };
+    condition = {
+      make: make,
+      model: model,
+      production_years: production_years,
+      specifications: specifications,
+    };
+  } else {
+    res.status(400).send({
+      message:
+        "Make, model, production_years, specifications, cannot be empty!",
+    });
+    return;
   }
 
   Community.findAll({

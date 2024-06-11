@@ -5,25 +5,29 @@ const sequelize = db.sequelize;
 
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.make && !req.body.model) {
+  if (
+    !req.body.title &&
+    !req.body.description &&
+    !req.body.make &&
+    !req.body.model
+  ) {
     res.status(400).send({
-      message: "Make and model cannot be empty!",
+      message: "Make, model, title, description cannot be empty!",
     });
     return;
   }
 
+  const community = {
+    title: req.body.title,
+    description: req.body.description,
+    make: req.body.make,
+    model: req.body.model,
+    production_years: req.body.production_years,
+    specifications: req.body.specifications,
+  };
+
   // Save Community in the database
-  Community.findOrCreate({
-    where: {
-      make: req.body.make,
-      model: req.body.model,
-    },
-    defaults: {
-      make: req.body.make,
-      model: req.body.model,
-      production_years: req.body.productionYear,
-    },
-  })
+  Community.create(community)
     .then((data) => {
       res.send(data);
     })
@@ -55,17 +59,18 @@ exports.findSelected = (req, res) => {
   let condition = {};
   const make = req.query.make;
   const model = req.query.model;
-  const production_years = req.query.productionYear;
-  if (make && model && production_years) {
+  const production_years = req.query.production_years;
+  const specifications = req.query.specifications;
+  if (make && model) {
     condition = {
       make: make,
       model: model,
-      production_years: production_years,
     };
-  } else if (make && model) {
-    condition = { make: make, model: model };
-  } else if (make) {
-    condition = { make: make };
+  } else {
+    res.status(400).send({
+      message: "Make and model cannot be empty!",
+    });
+    return;
   }
 
   Community.findAll({

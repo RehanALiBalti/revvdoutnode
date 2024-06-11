@@ -5,15 +5,16 @@ const Comment = db.comments;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-  if (!req.body.comments) {
+  if (!req.body.comments && !req.body.community_id && !req.body.sub) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      message: "comments, community_id and sub fields can not be empty!",
     });
     return;
   }
 
   const comment = {
     community_id: req.body.community_id,
+    sub: req.body.sub,
     comments: req.body.comments,
   };
 
@@ -110,7 +111,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.createComments = (req, res) => {
-  if (!req.body.comments && !req.body.user_email) {
+  if (!req.body.comments && !req.body.sub && !req.body.community_id) {
     res.status(400).send({
       message: "Content can not be empty!",
     });
@@ -120,8 +121,7 @@ exports.createComments = (req, res) => {
   if (req.file) {
     const comment = {
       community_id: req.body.community_id,
-      user_name: req.body.user_name,
-      user_email: req.body.user_email,
+      sub: req.body.user_name,
       image: req.file.originalname,
       comments: req.body.comments,
     };
@@ -138,8 +138,7 @@ exports.createComments = (req, res) => {
   } else {
     const comment = {
       community_id: req.body.community_id,
-      user_name: req.body.user_name,
-      user_email: req.body.user_email,
+      sub: req.body.user_name,
       comments: req.body.comments,
     };
     Comment.create(comment)

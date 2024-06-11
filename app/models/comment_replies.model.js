@@ -18,6 +18,9 @@ module.exports = (sequelize, Sequelize) => {
     created_date: {
       type: Sequelize.DATE,
     },
+    parent_id: {
+      type: Sequelize.NUMBER,
+    },
   });
 
   return Reply;

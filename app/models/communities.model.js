@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
     production_years: {
       type: Sequelize.STRING,
     },
+    specifications: {
+      type: Sequelize.STRING,
+    },
     image: {
       type: Sequelize.STRING,
     },
@@ -23,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
     },
     description: {
       type: Sequelize.TEXT,
+    },
+    title: {
+      type: Sequelize.STRING,
     },
   });
 
