@@ -82,7 +82,7 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   if (req.file) {
-    req.body.image = req.file.originalname;
+    req.body.image = req.file.filename;
   }
 
   User.update(req.body, {

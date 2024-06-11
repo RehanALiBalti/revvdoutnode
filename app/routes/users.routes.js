@@ -9,7 +9,8 @@ module.exports = (app) => {
       callback(null, "uploads/users/");
     },
     filename: (req, file, callback) => {
-      callback(null, file.originalname);
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      callback(null, uniqueSuffix + "-" + file.originalname);
     },
   });
 
