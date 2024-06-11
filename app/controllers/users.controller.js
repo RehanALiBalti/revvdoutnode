@@ -125,9 +125,9 @@ exports.findOne = (req, res) => {
     });
 };
 
-exports.findByCognitoId = (req, res) => {
-  const cognitoId = req.query.cognitoId;
-  User.findOne({ where: { cognitoId: cognitoId } })
+exports.findByUsername = (req, res) => {
+  const username = req.query.nickname;
+  User.findAndCountAll({ where: { username: username } })
     .then((data) => {
       res.send(data);
     })

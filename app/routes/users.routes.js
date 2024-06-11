@@ -20,7 +20,7 @@ module.exports = (app) => {
 
   userrouter.get("/", users.findAll);
 
-  userrouter.get("/cognito", users.findByCognitoId);
+  userrouter.get("/nickname", users.findByUsername);
   userrouter.get("/sub", users.findBySub);
 
   userrouter.get("/:id", users.findOne);
