@@ -25,6 +25,7 @@ exports.create = async (req, res) => {
   const user = {
     name: req.body.name,
     cognitoId: req.body.cognitoId,
+    username: req.body.username,
     sub: req.body.sub,
     email: req.body.email,
     password: req.body.password,
