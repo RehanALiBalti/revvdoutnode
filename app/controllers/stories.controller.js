@@ -91,7 +91,7 @@ exports.create = (req, res) => {
   ) {
     res.status(400).send({
       message:
-        "Make, model, story, story name, user namd and user email are required fields!",
+        "Make, model, story, story name, user name and user email are required fields!",
     });
     return;
   }

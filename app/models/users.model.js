@@ -9,6 +9,12 @@ module.exports = (sequelize, Sequelize) => {
     email: {
       type: Sequelize.STRING,
     },
+    sub: {
+      type: Sequelize.TEXT,
+    },
+    image: {
+      type: Sequelize.TEXT,
+    },
     password: {
       type: Sequelize.STRING,
     },
