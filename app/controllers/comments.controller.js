@@ -61,6 +61,7 @@ exports.findAllByCommunity = (req, res) => {
           comment["userImage"] = userdata.image;
           comment["nickname"] = userdata.nickname;
         });
+        comment["userImage"] = "userimage";
         newdata.push(comment);
       });
       res.send(newdata);
