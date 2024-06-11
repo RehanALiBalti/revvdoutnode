@@ -54,9 +54,10 @@ exports.findAllByCommunity = (req, res) => {
   // Car.findAll({ where: condition })
   Comment.findAll({ where: { community_id: community_id } })
     .then((data) => {
-      const newdata = {};
+      const newdata = [];
       data.forEach(function (comment) {
-        newdata.sub = comment.sub;
+        comment.image = "userimage";
+        newdata.push(comment);
       });
       res.send(newdata);
     })
