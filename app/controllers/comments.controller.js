@@ -2,7 +2,7 @@ const db = require("../models");
 const Comment = db.comments;
 const User = db.users;
 // const Op = db.Sequelize.Op;
-// const sequelize = db.sequelize;
+const sequelize = db.sequelize;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
@@ -50,29 +50,59 @@ exports.findAll = (req, res) => {
 
 exports.findAllByCommunity = (req, res) => {
   const community_id = req.params.id;
-  // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-
-  // Car.findAll({ where: condition })
-  Comment.findAll({ where: { community_id: community_id } })
-    .then((data) => {
-      const newdata = [];
-      data.forEach(function (comment) {
-        User.findOne({ where: { sub: comment.sub } }).then((userdata) => {
-          comment["userImage"] = userdata.image;
-          comment["nickname"] = userdata.nickname;
-        });
-        comment["userImage"] = "userimage";
-        newdata.push(comment);
-      });
-      res.send(newdata);
+  const query = `
+  SELECT
+    comments.id,
+    comments.comments,
+    comments.created_date,
+    users.nickname,
+    users.image
+  FROM
+    comments
+  INNER JOIN
+    users ON comments.sub = users.sub
+  WHERE
+    comments.community_id = :community_id;
+`;
+  sequelize
+    .query(query, {
+      replacements: { subId },
+      type: sequelize.QueryTypes.SELECT,
     })
-    .catch((err) => {
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((error) => {
       res.status(500).send({
         message:
           err.message || "Some error occurred while retrieving Comments.",
       });
     });
 };
+
+// exports.findAllByCommunity = (req, res) => {
+//   const community_id = req.params.id;
+
+//   Comment.findAll({ where: { community_id: community_id } })
+//     .then((data) => {
+//       const newdata = [];
+//       data.forEach(function (comment) {
+//         User.findOne({ where: { sub: comment.sub } }).then((userdata) => {
+//           comment["userImage"] = userdata.image;
+//           comment["nickname"] = userdata.nickname;
+//         });
+//         comment["userImage"] = "userimage";
+//         newdata.push(comment);
+//       });
+//       res.send(newdata);
+//     })
+//     .catch((err) => {
+//       res.status(500).send({
+//         message:
+//           err.message || "Some error occurred while retrieving Comments.",
+//       });
+//     });
+// };
 
 exports.findSelected = (req, res) => {
   let condition = {};
