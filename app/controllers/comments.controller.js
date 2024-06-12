@@ -81,7 +81,8 @@ exports.findAllByCommunity = (req, res) => {
 };
 
 exports.countComments = (req, res) => {
-  Comment.findAndCountAll()
+  const community_id = req.query.community_id;
+  Comment.findAndCountAll({ where: { community_id: community_id } })
     .then((data) => {
       res.send(data);
     })
