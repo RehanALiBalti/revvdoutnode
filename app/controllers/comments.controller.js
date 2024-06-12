@@ -80,6 +80,18 @@ exports.findAllByCommunity = (req, res) => {
     });
 };
 
+exports.countComments = (req, res) => {
+  Comment.findAndCountAll()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving User.",
+      });
+    });
+};
+
 // exports.findAllByCommunity = (req, res) => {
 //   const community_id = req.params.id;
 

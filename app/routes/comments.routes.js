@@ -28,6 +28,7 @@ module.exports = (app) => {
   comrouter.get("/", comments.findAll);
   comrouter.get("/commentsall/:id", comments.findAllByCommunity);
 
+  comrouter.get("/count", comments.countComments);
   comrouter.get("/:id", comments.findOne);
 
   comrouter.post("/comments", upload.single("image"), comments.createComments);
