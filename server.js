@@ -25,6 +25,7 @@ require("./app/routes/comments.routes")(app);
 require("./app/routes/comment_replies.routes")(app);
 require("./app/routes/users.routes")(app);
 require("./app/routes/stories.routes")(app);
+require("./app/routes/likes.routes")(app);
 
 const PORT = process.env.PORT || 5000;
 

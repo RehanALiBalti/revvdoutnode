@@ -31,5 +31,6 @@ db.comment_replies = require("./comment_replies.model.js")(
   Sequelize
 );
 db.users = require("./users.model.js")(sequelize, Sequelize);
+db.likes = require("./likes.model.js")(sequelize, Sequelize);
 
 module.exports = db;

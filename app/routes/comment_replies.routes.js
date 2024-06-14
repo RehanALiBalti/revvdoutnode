@@ -19,6 +19,8 @@ module.exports = (app) => {
   replyrouter.get("/", replies.findAll);
 
   replyrouter.get("/replyall/:id", replies.findAllByComment);
+  replyrouter.get("/count", replies.countReplies);
+  replyrouter.get("/test/:id", replies.test);
 
   replyrouter.get("/:id", replies.findOne);
 

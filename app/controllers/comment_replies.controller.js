@@ -47,33 +47,94 @@ exports.findAll = (req, res) => {
 
 exports.findAllByComment = (req, res) => {
   const comment_id = req.params.id;
-
-  const query = `
-  SELECT
-    comment_replies.*,
-    users.nickname,
-    users.image AS userimage
-  FROM
-    comment_replies
-  INNER JOIN
-    users ON comment_replies.sub = users.sub
-  WHERE
-    comment_replies.comment_id = :comment_id
-    GROUP by id;
-`;
-  console.log(query);
+  const query2 = `
+        SELECT
+          comments.comments as maincomment,
+          users.nickname as mainnickname
+        FROM
+          comments
+        INNER JOIN
+          users ON comments.sub = users.sub
+        WHERE
+          comments.id = :comment_id
+          GROUP by comments.id;
+      `;
   sequelize
-    .query(query, {
+    .query(query2, {
       replacements: { comment_id },
       type: sequelize.QueryTypes.SELECT,
     })
-    .then((results) => {
-      res.send(results);
+    .then((data) => {
+      let maincomment = data[0].maincomment;
+      let mainnickname = data[0].mainnickname;
+      const query = `
+      SELECT
+        comment_replies.*,
+        users.nickname,
+        users.image AS userimage
+      FROM
+        comment_replies
+      INNER JOIN
+        users ON comment_replies.sub = users.sub
+      WHERE
+        comment_replies.comment_id = :comment_id
+        GROUP by comment_replies.id;
+    `;
+      sequelize
+        .query(query, {
+          replacements: { comment_id },
+          type: sequelize.QueryTypes.SELECT,
+        })
+
+        .then((results) => {
+          results.forEach((result) => {
+            result.maincomment = maincomment;
+            result.mainnickname = mainnickname;
+          });
+          res.send(results);
+        })
+        .catch((error) => {
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while retrieving Comments.",
+          });
+        });
+    });
+};
+
+exports.test = (req, res) => {
+  const comment_id = req.params.id;
+  const query2 = `
+  SELECT
+    comments.comments as maincomment,
+    users.nickname as mainnickname
+  FROM
+    comments
+  INNER JOIN
+    users ON comments.sub = users.sub
+  WHERE
+    comments.id = :comment_id
+    GROUP by comments.id;
+`;
+  sequelize
+    .query(query2, {
+      replacements: { comment_id },
+      type: sequelize.QueryTypes.SELECT,
     })
-    .catch((error) => {
+    .then((data) => {
+      res.send(data);
+    });
+};
+
+exports.countReplies = (req, res) => {
+  const comment_id = req.query.comment_id;
+  Comment.findAndCountAll({ where: { comment_id: comment_id } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Comments.",
+        message: err.message || "Some error occurred while retrieving User.",
       });
     });
 };
