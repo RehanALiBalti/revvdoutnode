@@ -78,7 +78,7 @@ exports.findAllByCommunity = (req, res) => {
       });
     });
 };
-
+//user: srtechs@gmail.com pass: Abcd1234@
 exports.countComments = (req, res) => {
   const community_id = req.query.community_id;
   Comment.findAndCountAll({ where: { community_id: community_id } })

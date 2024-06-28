@@ -11,16 +11,16 @@ exports.create = async (req, res) => {
     return;
   }
 
-  // const oldUser = await User.findOne({
-  //   where: { cognitoId: req.body.cognitoId },
-  // });
+  const oldUser = await User.findOne({
+    where: { sub: req.body.sub },
+  });
 
-  // if (oldUser !== null) {
-  //   res.status(400).send({
-  //     message: `User already exists with cognitoId = ${cognitoId}`,
-  //   });
-  //   return;
-  // }
+  if (oldUser !== null) {
+    res.status(400).send({
+      message: `User already exists with sub id = ${sub}`,
+    });
+    return;
+  }
 
   const user = {
     name: req.body.name,
@@ -51,7 +51,7 @@ exports.create = async (req, res) => {
     role: req.body.role,
   };
   // Save user in the database
-  User.create(user)
+  await User.create(user)
     .then((data) => {
       res.send(data);
     })
