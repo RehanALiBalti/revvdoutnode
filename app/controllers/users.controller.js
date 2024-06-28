@@ -4,9 +4,9 @@ const Op = db.Sequelize.Op;
 const sequelize = db.sequelize;
 
 exports.create = async (req, res) => {
-  if (!req.body.cognitoId) {
+  if (!req.body.sub) {
     res.send({
-      message: "cognitoId field cannot be empty!",
+      message: "sub id field cannot be empty!",
     });
     return;
   }
