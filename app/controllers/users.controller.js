@@ -16,8 +16,8 @@ exports.create = async (req, res) => {
   });
 
   if (oldUser !== null) {
-    res.status(400).send({
-      message: `User already exists with sub id = ${sub}`,
+    res.send({
+      message: `User already exists with sub id = ${req.body.sub}`,
     });
     return;
   }
