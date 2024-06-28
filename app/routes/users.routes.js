@@ -25,6 +25,6 @@ module.exports = (app) => {
   userrouter.get("/sub", users.findBySub);
 
   userrouter.get("/:id", users.findOne);
-
+  // just to push
   app.use("/api/users", userrouter);
 };
