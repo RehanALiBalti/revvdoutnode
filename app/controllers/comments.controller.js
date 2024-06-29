@@ -48,6 +48,58 @@ exports.findAll = (req, res) => {
     });
 };
 
+exports.findAllCom = async (req, res) => {
+  const community_id = req.params.id;
+  const query2 = `
+        SELECT
+        comments.*,
+        users.nickname,
+        users.image AS userimage
+        FROM
+          comments
+        INNER JOIN
+          users ON comments.sub = users.sub
+        WHERE
+          comments.community_id = :community_id
+          GROUP by comments.id;
+      `;
+  const data = await sequelize.query(query2, {
+    replacements: { community_id },
+    type: sequelize.QueryTypes.SELECT,
+  });
+  const allData = [];
+  for (const comment of data) {
+    if (comment.type == "reply") {
+      const parent_id = comment.parent_id;
+      const query = `
+                  SELECT
+                  comments.comments AS maincomment,
+                  users.nickname AS mainnickname,
+                  users.image AS mainuserimage
+                  FROM
+                    comments
+                  INNER JOIN
+                    users ON comments.sub = users.sub
+                  WHERE
+                    comments.id = :parent_id
+                    GROUP by comments.id;
+                `;
+      const results = await sequelize.query(query, {
+        replacements: { parent_id },
+        type: sequelize.QueryTypes.SELECT,
+      });
+      comment.maincomment = results[0].maincomment;
+      comment.mainnickname = results[0].mainnickname;
+      comment.mainuserimage = results[0].mainuserimage;
+      allData.push(comment);
+    } else {
+      allData.push(comment);
+    }
+  }
+
+  res.send(allData);
+};
+
 exports.findAllByCommunity = (req, res) => {
   const community_id = req.params.id;
   const query = `
@@ -176,6 +228,8 @@ exports.createComments = (req, res) => {
       sub: req.body.sub,
       image: req.file.originalname,
       comments: req.body.comments,
+      parent_id: req.body.parent_id,
+      type: req.body.type,
     };
     Comment.create(comment)
       .then((data) => {
@@ -192,6 +246,8 @@ exports.createComments = (req, res) => {
       community_id: req.body.community_id,
       sub: req.body.sub,
       comments: req.body.comments,
+      parent_id: req.body.parent_id,
+      type: req.body.type,
     };
     Comment.create(comment)
       .then((data) => {

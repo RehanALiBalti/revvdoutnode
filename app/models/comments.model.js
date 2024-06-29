@@ -18,6 +18,12 @@ module.exports = (sequelize, Sequelize) => {
     created_date: {
       type: Sequelize.DATE,
     },
+    parent_id: {
+      type: Sequelize.NUMBER,
+    },
+    type: {
+      type: Sequelize.STRING,
+    },
   });
 
   return Comment;
