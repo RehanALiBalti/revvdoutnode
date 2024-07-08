@@ -65,12 +65,22 @@ exports.findSelected = (req, res) => {
     condition = {
       make: make,
       model: model,
+      specifications: specifications,
     };
   } else {
     res.status(400).send({
       message: "Make and model cannot be empty!",
     });
     return;
+  }
+
+  if (production_years) {
+    condition = {
+      make: make,
+      model: model,
+      production_years: production_years,
+      specifications: specifications,
+    };
   }
 
   Community.findAll({
