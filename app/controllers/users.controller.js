@@ -78,8 +78,19 @@ exports.findAll = (req, res) => {
     });
 };
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   const id = req.params.id;
+
+  const oldUser = await User.findOne({
+    where: { phone: req.body.phone },
+  });
+
+  if (oldUser !== null) {
+    res.send({
+      message: `Phone number already exists, phone number = ${req.body.phone}`,
+    });
+    return;
+  }
 
   if (req.file) {
     req.body.image = req.file.filename;
