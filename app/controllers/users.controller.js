@@ -1,5 +1,5 @@
 const db = require("../models");
-import twilio from "twilio";
+// import twilio from "twilio";
 const User = db.users;
 const Op = db.Sequelize.Op;
 const sequelize = db.sequelize;
@@ -63,33 +63,33 @@ exports.create = async (req, res) => {
     });
 };
 
-exports.verifyPhone = async (req, res) => {
-  if (!req.body.phone) {
-    res.send({
-      message: "Phone field cannot be empty!",
-    });
-    return;
-  }
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const client = twilio(accountSid, authToken);
-  const verifyCode = "12345";
+// exports.verifyPhone = async (req, res) => {
+//   if (!req.body.phone) {
+//     res.send({
+//       message: "Phone field cannot be empty!",
+//     });
+//     return;
+//   }
+//   const accountSid = process.env.TWILIO_ACCOUNT_SID;
+//   const authToken = process.env.TWILIO_AUTH_TOKEN;
+//   const client = twilio(accountSid, authToken);
+//   const verifyCode = "12345";
 
-  const twilioResponse = await client.messages.create({
-    body: "Here is your verification code from revvdout : " + verifyCode,
-    from: "+15017122661",
-    to: phone,
-  });
-  if (!twilioResponse.error_code) {
-    res.send({
-      message: "SMS sent to client with verification code",
-    });
-  } else {
-    res.status(500).send({
-      message: twilioResponse.error_message,
-    });
-  }
-};
+//   const twilioResponse = await client.messages.create({
+//     body: "Here is your verification code from revvdout : " + verifyCode,
+//     from: "+15017122661",
+//     to: phone,
+//   });
+//   if (!twilioResponse.error_code) {
+//     res.send({
+//       message: "SMS sent to client with verification code",
+//     });
+//   } else {
+//     res.status(500).send({
+//       message: twilioResponse.error_message,
+//     });
+//   }
+// };
 
 exports.findAll = (req, res) => {
   // const title = req.query.title;
