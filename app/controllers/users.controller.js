@@ -154,6 +154,52 @@ exports.update = async (req, res) => {
     });
 };
 
+exports.updateUser = async (req, res) => {
+  const sub = req.body.sub;
+
+  const oldUser = await User.findOne({
+    where: { phone: req.body.phone },
+  });
+
+  if (oldUser !== null) {
+    res.send({
+      message: `Phone number already exists, phone number = ${req.body.phone}`,
+    });
+    return;
+  }
+
+  if (req.file) {
+    req.body.image = req.file.filename;
+  }
+
+  User.update(req.body, {
+    where: { sub: sub },
+  })
+    .then((num) => {
+      if (num == 1) {
+        User.findOne({ where: { sub: sub } })
+          .then((data) => {
+            res.send(data);
+          })
+          .catch((err) => {
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while retrieving User.",
+            });
+          });
+      } else {
+        res.send({
+          message: `Cannot update User with id=${sub}. Maybe User was not found or req.body is empty!`,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error updating User with id=" + sub,
+      });
+    });
+};
+
 exports.findOne = (req, res) => {
   const id = req.params.id;
 

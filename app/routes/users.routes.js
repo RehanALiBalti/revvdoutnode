@@ -18,7 +18,8 @@ module.exports = (app) => {
 
   userrouter.post("/", users.create);
   userrouter.post("/verify", users.verifyPhone);
-  userrouter.put("/:id", userUpload.single("image"), users.update);
+  userrouter.post("/updateuser", userUpload.single("image"), users.updateUser);
+  // userrouter.put("/:id", userUpload.single("image"), users.update);
 
   userrouter.get("/", users.findAll);
 
