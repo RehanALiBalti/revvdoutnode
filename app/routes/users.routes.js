@@ -16,9 +16,9 @@ module.exports = (app) => {
 
   const userUpload = multer({ storage: userImageStorage });
 
+  userrouter.post("/updateuser", userUpload.single("image"), users.updateUser);
   userrouter.post("/", users.create);
   userrouter.post("/verify", users.verifyPhone);
-  userrouter.post("/updateuser", userUpload.single("image"), users.updateUser);
   // userrouter.put("/:id", userUpload.single("image"), users.update);
 
   userrouter.get("/", users.findAll);
