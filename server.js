@@ -4,9 +4,7 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(
-  cors({ origin: "http://localhost:8081", methods: "GET,POST,PUT,DELETE" })
-);
+app.use(cors());
 
 app.use(bodyParser.json());
 
