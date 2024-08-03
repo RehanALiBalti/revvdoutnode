@@ -158,7 +158,10 @@ exports.updateUser = async (req, res) => {
   const sub = req.body.sub;
 
   const oldUser = await User.findOne({
-    where: { phone: req.body.phone },
+    where: { 
+      phone: req.body.phone ,
+      sub: { [Op.ne]: sub } 
+    },
   });
 
   if (oldUser !== null) {
