@@ -1,8 +1,8 @@
 module.exports = {
-  HOST: "localhost",
-  USER: "root",
-  PASSWORD: "",
-  DB: "revvdout",
+  HOST: "74.220.219.152",
+  USER: "buzzware_revvdout",
+  PASSWORD: "a=^M7]]mMLoR",
+  DB: "buzzware_revvdout",
   dialect: "mysql",
   pool: {
     max: 5,
