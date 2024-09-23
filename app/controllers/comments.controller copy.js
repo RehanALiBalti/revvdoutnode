@@ -30,7 +30,8 @@ exports.create = (req, res) => {
       });
     });
 };
-
+//De Voluu
+// Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
   // const title = req.query.title;
   // var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
@@ -137,41 +138,35 @@ exports.findAllCom = async (req, res) => {
   res.send(allData);
 };
 
-exports.findAllByCommunity = async (req, res) => {
+exports.findAllByCommunity = (req, res) => {
   const community_id = req.params.id;
-  const comments = await Comment.findAll({
-    where: { community_id: community_id },
-  });
-
-  const allData = [];
-
-  for (const comment of comments) {
-    const sub = comment.sub;
-    const user = await User.findOne({ where: { sub: sub } });
-    const thisComment = {
-      ...comment.dataValues,
-      userImage: user.image,
-      nickname: user.nickname,
-    };
-    if (comment.type == "reply") {
-      const pcomment = await Comment.findOne({
-        where: { id: comment.parent_id },
+  const query = `
+  SELECT
+    comments.*,
+    users.nickname,
+    users.image AS userimage
+  FROM
+    comments
+  INNER JOIN
+    users ON comments.sub = users.sub
+  WHERE
+    comments.community_id = :community_id
+    GROUP by id;
+`;
+  sequelize
+    .query(query, {
+      replacements: { community_id },
+      type: sequelize.QueryTypes.SELECT,
+    })
+    .then((results) => {
+      res.send(results);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Comments.",
       });
-      const puser = await User.findOne({ where: { sub: pcomment.sub } });
-      const pcom = {
-        ...comment.dataValues,
-        userImage: user.image,
-        nickname: user.nickname,
-        maincomment: pcomment.comments,
-        mainnickname: puser.nickname,
-        mainuserimage: puser.image,
-      };
-      allData.push(pcom);
-    } else {
-      allData.push(thisComment);
-    }
-  }
-  res.send(allData);
+    });
 };
 //user: srtechs@gmail.com pass: Abcd1234@
 exports.countComments = (req, res) => {

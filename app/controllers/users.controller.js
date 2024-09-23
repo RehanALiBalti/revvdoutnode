@@ -158,9 +158,9 @@ exports.updateUser = async (req, res) => {
   const sub = req.body.sub;
 
   const oldUser = await User.findOne({
-    where: { 
-      phone: req.body.phone ,
-      sub: { [Op.ne]: sub } 
+    where: {
+      phone: req.body.phone,
+      sub: { [Op.ne]: sub },
     },
   });
 
@@ -247,4 +247,57 @@ exports.findBySub = (req, res) => {
         message: err.message || "Some error occurred while retrieving User.",
       });
     });
+};
+
+exports.userExistsBySub = async (req, res) => {
+  if (!req.body.sub) {
+    res.send({
+      message: "sub id field cannot be empty!",
+    });
+    return;
+  }
+
+  const sub = req.body.sub;
+  const oldUser = await User.findOne({
+    where: { sub: sub },
+  });
+
+  if (oldUser !== null) {
+    const user = {
+      nickname: req.body.nickname,
+      sub: req.body.sub,
+      email: req.body.email,
+    };
+    await User.update(user, {
+      where: { sub: sub },
+    })
+      .then((num) => {
+        res.send({
+          message: "User updated",
+        });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "Error updating User with id=" + sub,
+        });
+      });
+  } else {
+    const user = {
+      nickname: req.body.nickname,
+      sub: req.body.sub,
+      email: req.body.email,
+      role: "user",
+    };
+    // Save user in the database
+    await User.create(user)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while creating the user.",
+        });
+      });
+  }
 };

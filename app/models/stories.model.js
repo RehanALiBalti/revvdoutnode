@@ -6,6 +6,9 @@ module.exports = (sequelize, Sequelize) => {
     user_email: {
       type: Sequelize.STRING,
     },
+    story_type: {
+      type: Sequelize.STRING,
+    },
     make: {
       type: Sequelize.STRING,
     },
@@ -41,6 +44,18 @@ module.exports = (sequelize, Sequelize) => {
     },
     status: {
       type: Sequelize.NUMBER,
+    },
+    country: {
+      type: Sequelize.STRING,
+    },
+    city: {
+      type: Sequelize.STRING,
+    },
+    story_history: {
+      type: Sequelize.TEXT,
+    },
+    adventure_story: {
+      type: Sequelize.TEXT,
     },
   });
 

@@ -82,8 +82,6 @@ exports.findOne = (req, res) => {
 
 exports.create = (req, res) => {
   if (
-    !req.body.make &&
-    !req.body.model &&
     !req.body.story &&
     !req.body.user_name &&
     !req.body.story_name &&
@@ -91,7 +89,7 @@ exports.create = (req, res) => {
   ) {
     res.status(400).send({
       message:
-        "Make, model, story, story name, user name and user email are required fields!",
+        "Story, story name, user name and user email are required fields!",
     });
     return;
   }
@@ -103,21 +101,26 @@ exports.create = (req, res) => {
       filesArray.push(file.filename);
     });
     const filesJson = JSON.stringify(filesArray);
-    const comment = {
+    const story = {
       user_name: req.body.user_name,
       user_email: req.body.user_email,
+      story_type: req.body.story_type,
       story: req.body.story,
       modifications: req.body.modifications,
       memorable: req.body.memorable,
       advice: req.body.advice,
-      story_name: req.body.social_media,
+      story_name: req.body.story_name,
       make: req.body.make,
       model: req.body.model,
-      model: req.body.model,
       year: req.body.year,
+      social_media: req.body.social_media,
+      country: req.body.country,
+      city: req.body.city,
+      story_history: req.body.story_history,
+      adventure_story: req.body.adventure_story,
       images: filesJson,
     };
-    Story.create(comment)
+    Story.create(story)
       .then((data) => {
         res.send(data);
       })
@@ -127,20 +130,25 @@ exports.create = (req, res) => {
         });
       });
   } else {
-    const comment = {
+    const story = {
       user_name: req.body.user_name,
       user_email: req.body.user_email,
+      story_type: req.body.story_type,
       story: req.body.story,
       modifications: req.body.modifications,
       memorable: req.body.memorable,
       advice: req.body.advice,
-      story_name: req.body.social_media,
+      story_name: req.body.story_name,
       make: req.body.make,
       model: req.body.model,
-      model: req.body.model,
       year: req.body.year,
+      social_media: req.body.social_media,
+      country: req.body.country,
+      city: req.body.city,
+      story_history: req.body.story_history,
+      adventure_story: req.body.adventure_story,
     };
-    Story.create(comment)
+    Story.create(story)
       .then((data) => {
         res.send(data);
       })
@@ -151,7 +159,7 @@ exports.create = (req, res) => {
       });
   }
 };
-
+//ALTER TABLE `stories` CHANGE `year` `year` VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;
 exports.uploadUserPhoto = (req, res) => {
   if (!req.file) {
     res.status(400).send({
