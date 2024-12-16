@@ -98,7 +98,7 @@ exports.create = (req, res) => {
     const filesArrayObject = req.files;
     const filesArray = [];
     filesArrayObject.forEach(function (file) {
-      filesArray.push(file.filename);
+      filesArray.push("https://king-prawn-app-3rw3o.ondigitalocean.app/stories/"+file.filename);
     });
     const filesJson = JSON.stringify(filesArray);
     const story = {
