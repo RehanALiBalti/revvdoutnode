@@ -1,7 +1,7 @@
 module.exports = {
-  HOST: "74.220.219.152",
-  USER: "buzzware_revvdout",
-  PASSWORD: "a=^M7]]mMLoR",
+  HOST: "terraform-20250204113159431200000001.cfkywe2k2d3m.eu-central-1.rds.amazonaws.com",
+  USER: "buzzware",
+  PASSWORD: "StrongPass123!",
   DB: "buzzware_revvdout",
   dialect: "mysql",
   pool: {
