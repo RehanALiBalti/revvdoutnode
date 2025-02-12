@@ -291,6 +291,7 @@ exports.createComments = (req, res) => {
       comments: req.body.comments,
       parent_id: req.body.parent_id,
       type: req.body.type,
+      image:req.body.image
     };
     Comment.create(comment)
       .then((data) => {

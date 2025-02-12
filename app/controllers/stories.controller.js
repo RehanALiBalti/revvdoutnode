@@ -147,6 +147,7 @@ exports.create = (req, res) => {
       city: req.body.city,
       story_history: req.body.story_history,
       adventure_story: req.body.adventure_story,
+      images: req.body.images,
     };
     Story.create(story)
       .then((data) => {
