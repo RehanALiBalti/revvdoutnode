@@ -81,6 +81,7 @@ exports.findOne = (req, res) => {
 };
 
 exports.create = (req, res) => {
+  console.log("request",req.body);
   if (
     !req.body.story &&
     !req.body.user_name &&
@@ -94,7 +95,8 @@ exports.create = (req, res) => {
     return;
   }
 
-  if (req.files) {
+  if (!req.files) {
+    console.log("yes");
     const filesArrayObject = req.files;
     const filesArray = [];
     filesArrayObject.forEach(function (file) {
@@ -130,6 +132,7 @@ exports.create = (req, res) => {
         });
       });
   } else {
+    console.log("no");
     const story = {
       user_name: req.body.user_name,
       user_email: req.body.user_email,
@@ -149,6 +152,7 @@ exports.create = (req, res) => {
       adventure_story: req.body.adventure_story,
       images: req.body.images,
     };
+    console.log(story)
     Story.create(story)
       .then((data) => {
         res.send(data);
