@@ -34,12 +34,13 @@ module.exports = function(app) {
             // File is now uploaded and stored in the `req.file` object
             const file = req.file;
             console.log(file);
+            const uniquePublicId = `file_${Date.now()}`; // Unique name for each file
 
             // Upload the file to Cloudinary
             cloudinary.uploader.upload_stream(
 
                 {
-                    public_id: 'file',
+                    public_id: uniquePublicId,
                     resource_type: 'auto'
                 },
                 (error, result) => {
