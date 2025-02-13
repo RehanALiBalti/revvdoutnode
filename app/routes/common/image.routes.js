@@ -22,7 +22,7 @@ module.exports = function(app) {
     });
     app.post('/api/common/upload', (req, res) => {
         console.log("fileupload is calling");
-        console.log(req.file);
+        
         upload(req, res, (err) => {
             if (err) {
                 return res.status(400).send({
@@ -33,6 +33,7 @@ module.exports = function(app) {
 
             // File is now uploaded and stored in the `req.file` object
             const file = req.file;
+            console.log(file);
 
             // Upload the file to Cloudinary
             cloudinary.uploader.upload_stream(
