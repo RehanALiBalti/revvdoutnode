@@ -21,6 +21,8 @@ module.exports = function(app) {
         next();
     });
     app.post('/api/common/upload', (req, res) => {
+        console.log("fileupload is calling");
+        console.log(req.file);
         upload(req, res, (err) => {
             if (err) {
                 return res.status(400).send({
@@ -56,7 +58,6 @@ module.exports = function(app) {
 
 
                     // File has been successfully uploaded to Cloudinary
-
                 }
             ).end(file.buffer);
         });
